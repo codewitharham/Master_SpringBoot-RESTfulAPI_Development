@@ -2,6 +2,7 @@ package com.codewitharham.remote.LearningRESTApi.services.Implementations;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.codewitharham.remote.LearningRESTApi.repository.StudentRepository;
@@ -14,10 +15,15 @@ public class StudentServiceImpl implements StudentService {
 
     private final StudentRepository studentRepo;
 
+    private final ModelMapper modelMapper;
+
     // Constructor injection (best practice)
-    public StudentServiceImpl(StudentRepository studentRepo) {
+
+    public StudentServiceImpl(StudentRepository studentRepo, ModelMapper modelMapper) {
         this.studentRepo = studentRepo;
+        this.modelMapper = modelMapper;
     }
+
 
     @Override
     public List<StudentDto> getAllStudents() {
@@ -32,5 +38,23 @@ public class StudentServiceImpl implements StudentService {
 
         // 3. Return DTOs
         return studentDtos;
+    }
+
+
+    @Override
+    public StudentDto getStudentById(Long id) {
+        // 1. Fetch entity from DB
+        StudentEntity studentEntity = studentRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("Student not found with id: " + id));
+
+        // System.out.println("Fetched Student Entity: " + studentEntity);
+
+        // 2. Convert Entity -> DTO
+        StudentDto studentDto = modelMapper.map(studentEntity, StudentDto.class);
+
+        System.out.println("Fetched Student: " + id);
+
+        // 3. Return DTO
+        return studentDto;
     }
 }

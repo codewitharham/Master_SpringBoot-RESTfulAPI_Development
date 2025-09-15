@@ -11,4 +11,8 @@ public interface StudentService {
     // Implementation will be done in a class that implements this interface
 
     List<StudentDto> getAllStudents();
+
+    StudentDto getStudentById(Long id);
+
+    
 }
