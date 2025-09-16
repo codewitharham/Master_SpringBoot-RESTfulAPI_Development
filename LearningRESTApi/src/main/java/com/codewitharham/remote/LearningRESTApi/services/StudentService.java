@@ -2,6 +2,7 @@ package com.codewitharham.remote.LearningRESTApi.services;
 
 import java.util.List;
 
+import com.codewitharham.remote.LearningRESTApi.DataTransferObjects.AddStudentDto;
 import com.codewitharham.remote.LearningRESTApi.DataTransferObjects.StudentDto;
 
 public interface StudentService {
@@ -14,5 +15,6 @@ public interface StudentService {
 
     StudentDto getStudentById(Long id);
 
+    StudentDto createStudent(AddStudentDto addStudentDto);
     
 }

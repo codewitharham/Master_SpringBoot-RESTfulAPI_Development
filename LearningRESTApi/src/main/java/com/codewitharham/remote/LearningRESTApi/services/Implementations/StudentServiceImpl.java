@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.codewitharham.remote.LearningRESTApi.repository.StudentRepository;
 import com.codewitharham.remote.LearningRESTApi.services.StudentService;
+import com.codewitharham.remote.LearningRESTApi.DataTransferObjects.AddStudentDto;
 import com.codewitharham.remote.LearningRESTApi.DataTransferObjects.StudentDto;
 import com.codewitharham.remote.LearningRESTApi.entity.StudentEntity;
 
@@ -56,5 +57,18 @@ public class StudentServiceImpl implements StudentService {
 
         // 3. Return DTO
         return studentDto;
+    }
+
+    @Override
+    public StudentDto createStudent(AddStudentDto addStudentDto) {
+       // 1. Convert DTO to Entity
+       StudentEntity studentEntity = modelMapper.map(addStudentDto, StudentEntity.class);
+        
+       StudentEntity newSavedStudent = studentRepo.save(studentEntity);
+
+       StudentDto student = modelMapper.map(newSavedStudent, StudentDto.class);
+
+       return student;
+
     }
 }
